@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 const jsonValidator = require('../index');
 const expect = require('chai').expect;
 
@@ -75,7 +76,7 @@ describe('JsonValidator', () => {
           age: 123,
           text: 'hi!',
         },
-      }
+      };
       validator.create(t => ({
         data: {
           user: t.string,

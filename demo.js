@@ -14,9 +14,8 @@ const json = {
   age: 22,
   text: '123456789',
   data: {
-    //token: 'hola que tal estamos hola que tal esto tiene que llegar hasta los putos 20',
+    token: 'hola que tal estamos hola que tal esto tiene que llegar hasta los putos 20',
   },
 };
 
-const result = validator.validate(json, 'demoValidator');
-console.log(result);
+validator.validate(json, 'demoValidator');
