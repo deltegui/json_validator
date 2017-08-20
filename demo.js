@@ -12,5 +12,4 @@ const json = {
   text: '123456789',
 };
 
-const result = validator.validate(json, 'demoValidator');
-console.log(result);
+validator.validate(json, 'demoValidator');

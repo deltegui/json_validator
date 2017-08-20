@@ -4,8 +4,13 @@
   "description": "A library that check if a json is valid or not.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 120000 test/*"
+    "test": "mocha --timeout 120000 test/*",
+    "linter": "eslint ./"
   },
+  "pre-commit": [
+    "test",
+    "linter"
+  ],
   "author": "Diego Dlegado Barcaiztegui",
   "license": "ISC",
   "devDependencies": {
@@ -13,6 +18,8 @@
     "eslint": "^4.5.0",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
-    "mocha": "^3.5.0"
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^3.5.0",
+    "pre-commit": "^1.2.2"
   }
 }

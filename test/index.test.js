@@ -4,7 +4,6 @@ const expect = require('chai').expect;
 let validator;
 
 describe('JsonValidator', () => {
-  
   beforeEach(() => {
     validator = jsonValidator();
   });
@@ -34,7 +33,7 @@ describe('JsonValidator', () => {
         text: t.string,
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');
-      expect(result).to.equal(true)
+      expect(result).to.equal(true);
     });
 
     it('if a param is required, should appear in json', () => {
@@ -48,7 +47,7 @@ describe('JsonValidator', () => {
         text: t.string.required,
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');
-      expect(result).to.equal(false)
+      expect(result).to.equal(false);
     });
   });
 });

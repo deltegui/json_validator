@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 class Validator {
   constructor(jsonStructure) {
     this.structure = jsonStructure;
@@ -8,14 +10,14 @@ class Validator {
   }
 
   haveRequiredKeys(json) {
-    for(let key in this.structure) {
+    for(const key of Object.keys(this.structure)) {
       if(!json[key] && this.keyIsRequired(key)) return false;
     }
     return true;
   }
 
   validateTypes(json) {
-    for(let key in this.structure) {
+    for(const key of Object.keys(this.structure)) {
       if(json[key]) {
         if(!this.structure[key].isValid(json[key])) return false;
       }
@@ -24,7 +26,7 @@ class Validator {
   }
 
   keyIsRequired(key) {
-    return this.structure[key].isRequired;
+    return !!this.structure[key].isRequired;
   }
 }
 
