@@ -1,46 +1,26 @@
-/* eslint-disable no-restricted-syntax */
+
 const Type = require('./type');
 
-class MaxStringValidator {
-  constructor(maxLength) {
-    this.maxLength = maxLength;
-  }
-
-  test(str) {
-    return str.length < this.maxLength;
-  }
+function maxStringValidator(maxLength) {
+  return str => str.length < maxLength;
 }
 
-class MinStringValidator {
-  constructor(minLength) {
-    this.minLength = minLength;
-  }
-
-  test(str) {
-    return str.length > this.minLength;
-  }
+function minStringValidator(minLength) {
+  return str => str.length > minLength;
 }
 
 class StringType extends Type {
-  constructor() {
-    super();
-    this.validators = [];
-  }
-
   isValid(p) {
-    for(const validator of this.validators) {
-      if(!validator.test(p)) return false;
-    }
-    return typeof p === 'string';
+    return typeof p === 'string' && super.isValid(p);
   }
 
   min(minLength) {
-    this.validators.push(new MinStringValidator(minLength));
+    this.validators.push(minStringValidator(minLength));
     return this;
   }
 
   max(maxLength) {
-    this.validators.push(new MaxStringValidator(maxLength));
+    this.validators.push(maxStringValidator(maxLength));
     return this;
   }
 }
