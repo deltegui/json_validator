@@ -30,3 +30,16 @@ const json = {
 };  
 validator.validate(json, 'validatorName');  
 ```
+
+You can also nest objects like this:
+
+```javascript
+validator.create(t => ({
+  user: t.string.required,
+  age: t.number,
+  text: t.string.max(10).required,
+  data: {
+    token: t.string,
+  },
+}), 'demoValidator');
+```

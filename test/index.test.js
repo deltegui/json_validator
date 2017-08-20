@@ -33,7 +33,7 @@ describe('JsonValidator', () => {
         text: t.string,
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');
-      expect(result).to.equal(true);
+      expect(result).to.be.true;
     });
 
     it('if a param is required, should appear in json', () => {
@@ -47,7 +47,44 @@ describe('JsonValidator', () => {
         text: t.string.required,
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');
-      expect(result).to.equal(false);
+      expect(result).to.be.false;
+    });
+
+    it('should validate nested jsons if bad', () => {
+      const json = {
+        data: {
+          name: 222,
+          age: 123,
+        },
+      };
+      validator.create(t => ({
+        data: {
+          user: t.string,
+          age: t.number,
+          text: t.string.required,
+        },
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.false;
+    });
+
+    it('should validate nested jsons if good', () => {
+      const json = {
+        data: {
+          name: 'demo',
+          age: 123,
+          text: 'hi!',
+        },
+      }
+      validator.create(t => ({
+        data: {
+          user: t.string,
+          age: t.number,
+          text: t.string.required,
+        },
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.true;
     });
   });
 });
