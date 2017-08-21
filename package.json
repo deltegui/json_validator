@@ -1,6 +1,6 @@
 {
-  "name": "jsonvalidator",
-  "version": "1.0.0",
+  "name": "simplejsonvalidator",
+  "version": "0.1.1",
   "description": "A library that check if a json is valid or not.",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "linter"
   ],
   "author": "Diego Dlegado Barcaiztegui",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
     "chai": "^4.1.1",
     "eslint": "^4.5.0",
