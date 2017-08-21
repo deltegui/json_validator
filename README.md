@@ -60,6 +60,7 @@ validator.create(t => ({
 ````
 
 You can use this validators in string type:
+
 | Validator     | Explanation        | Example              |
 | ------------- | ------------------ |:--------------------:|
 | required      | makes key required | t.string.required    |
@@ -76,6 +77,7 @@ validator.create(t => ({
 ````
 
 You can use this validators in number type:
+
 | Validator     | Explanation                  | Example              |
 | ------------- | ---------------------------- |:--------------------:|
 | required      | makes key required           | t.number.required    |
@@ -92,6 +94,7 @@ validator.create(t => ({
 ````
 
 You can use this validators in boolean type:
+
 | Validator     | Explanation        | Example              |
 | ------------- | ------------------ |:--------------------:|
 | required      | makes key required | t.boolean.required   |
@@ -106,6 +109,7 @@ validator.create(t => ({
 ````
 
 You can use this validators in array type:
+
 | Validator             | Explanation                                              | Example                  |
 | --------------------- | -------------------------------------------------------- |:------------------------:|
 | required              | makes key required                                       | t.array.required         |
