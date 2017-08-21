@@ -1,41 +1,30 @@
 /* eslint-disable no-restricted-syntax */
+const { isObjectLiteral, flattenObject } = require('./utils');
 
-function isObjectLiteral(type) {
-  return typeof type === 'object' && type.constructor === Object;
+function notHaveRequiedKey(struct) {
+  const flattenStruct = flattenObject(struct);
+  let notRequired = true;
+  Object.keys(flattenStruct).forEach((key) => {
+    notRequired = notRequired && !flattenStruct[key].isRequired;
+  });
+  return notRequired;
 }
 
-// TODO refactor this class. Specially haveRequiredKeys and validateTypes methods.
 class Validator {
   constructor(jsonStructure) {
     this.structure = jsonStructure;
   }
 
-  validate(json) {
-    return this.haveRequiredKeys(json) && this.validateTypes(json);
-  }
-
-  haveRequiredKeys(json, struct = this.structure) {
+  validate(json, struct = this.structure) {
+    if(!json) {
+      return notHaveRequiedKey(struct);
+    }
     for(const key of Object.keys(struct)) {
       if(isObjectLiteral(struct[key])) {
-        if(!this.haveRequiredKeys(json[key], struct[key])) return false;
-      } else if(!json[key] && this.keyIsRequired(key, struct)) return false;
+        if(!this.validate(json[key], struct[key])) return false;
+      } else if(!struct[key].isValid(json[key])) return false;
     }
     return true;
-  }
-
-  validateTypes(json, struct = this.structure) {
-    for(const key of Object.keys(struct)) {
-      if(isObjectLiteral(struct[key])) {
-        if(!this.validateTypes(json[key], struct[key])) return false;
-      } else if(json[key]) {
-        if(!struct[key].isValid(json[key])) return false;
-      }
-    }
-    return true;
-  }
-
-  keyIsRequired(key, struct = this.structure) {
-    return !!struct[key].isRequired;
   }
 }
 

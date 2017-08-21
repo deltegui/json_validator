@@ -10,6 +10,7 @@ class Type {
   }
 
   isValid(p) {
+    if(!p && !this.isRequired) return true;
     for(const validator of this.validators) {
       if(!validator(p)) return false;
     }

@@ -1,9 +1,14 @@
 /* eslint-disable class-methods-use-this */
 const Type = require('./type');
 
+function booleanValidator(bool) {
+  return typeof bool === 'boolean';
+}
+
 class BooleanType extends Type {
-  isValid(p) {
-    return typeof p === 'boolean' && super.isValid(p);
+  constructor() {
+    super();
+    this.validators.push(booleanValidator);
   }
 }
 

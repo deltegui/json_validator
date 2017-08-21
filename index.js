@@ -12,8 +12,8 @@ const jsonValidator = {
    * @return {Validator}
    */
   create(callback, name) {
-    const jsonStructure = callback(types);
-    const validator = new Validator(jsonStructure);
+    const schema = callback(types);
+    const validator = new Validator(schema);
     this.validators[name] = validator;
     return validator;
   },

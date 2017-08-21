@@ -39,8 +39,8 @@ describe('Types', () => {
 
   describe('BooleanType', () => {
     it('should validate a boolean', () => {
-      expect(types.boolean.isValid(true)).to.be.true;
-      expect(types.boolean.isValid('')).to.be.false;
+      expect(types.boolean.required.isValid(true)).to.be.true;
+      expect(types.boolean.required.isValid('')).to.be.false;
     });
   });
 

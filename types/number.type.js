@@ -9,9 +9,14 @@ function negativeValidator(number) {
   return number < 0;
 }
 
+function numberValidator(number) {
+  return typeof number === 'number';
+}
+
 class NumberType extends Type {
-  isValid(p) {
-    return typeof p === 'number' && super.isValid(p);
+  constructor() {
+    super();
+    this.validators.push(numberValidator);
   }
 
   get positive() {

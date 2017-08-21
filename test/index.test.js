@@ -10,7 +10,7 @@ describe('JsonValidator', () => {
   });
 
   describe('create function', () => {
-    it('create function should store a new validator', () => {
+    it('should store a new validator', () => {
       validator.create(t => ({
         user: t.string,
         age: t.number,
@@ -22,7 +22,7 @@ describe('JsonValidator', () => {
   });
 
   describe('validate function', () => {
-    it('validate should valiate a json according to a validator', () => {
+    it('should validate a json according to a validator', () => {
       const json = {
         user: 'demo',
         age: 123,
@@ -82,6 +82,53 @@ describe('JsonValidator', () => {
           user: t.string,
           age: t.number,
           text: t.string.required,
+        },
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.true;
+    });
+
+    it('should validate more nested jsons', () => {
+      const json = {
+        data: {
+          name: 'demo',
+          age: 123,
+          text: 'hi!',
+          type: {
+            name: 'bearer',
+          },
+        },
+      };
+      validator.create(t => ({
+        data: {
+          user: t.string,
+          age: t.number,
+          text: t.string.required,
+          type: {
+            name: t.string,
+          },
+        },
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.true;
+    });
+
+    it('should validate more nested jsons if not present and its not required', () => {
+      const json = {
+        data: {
+          name: 'demo',
+          age: 123,
+          text: 'hi!',
+        },
+      };
+      validator.create(t => ({
+        data: {
+          user: t.string,
+          age: t.number,
+          text: t.string.required,
+          type: {
+            name: t.string,
+          },
         },
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');

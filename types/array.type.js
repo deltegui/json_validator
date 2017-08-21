@@ -17,9 +17,14 @@ function emptyValidator(arr) {
   return arr.length !== 0;
 }
 
+function arrayValidator(arr) {
+  return arr instanceof Array;
+}
+
 class ArrayType extends Type {
-  isValid(p) {
-    return p instanceof Array && super.isValid(p);
+  constructor() {
+    super();
+    this.validators.push(arrayValidator);
   }
 
   exactLength(length) {

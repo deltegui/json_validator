@@ -9,9 +9,14 @@ function minStringValidator(minLength) {
   return str => str.length > minLength;
 }
 
+function stringValidator(str) {
+  return typeof str === 'string';
+}
+
 class StringType extends Type {
-  isValid(p) {
-    return typeof p === 'string' && super.isValid(p);
+  constructor() {
+    super();
+    this.validators.push(stringValidator);
   }
 
   min(minLength) {
