@@ -1,5 +1,5 @@
 # SimpleJsonValidator
-Json Validator for NodeJS
+Json Validator for NodeJS with simple ruby-like syntax
 
 ## Installation
 You can install this library using npm:
@@ -11,7 +11,7 @@ You can install this library using npm:
 First you need to create a new JsonValidator instance calling to exported function:
 
 ```javascript
-const jsonValidator = require('JsonValidator');
+const jsonValidator = require('simplejsonvalidator');
 const validator = jsonValidator();
 ```
 
@@ -64,8 +64,8 @@ You can use this validators in string type:
 | Validator     | Explanation        | Example              |
 | ------------- | ------------------ |:--------------------:|
 | required      | makes key required | t.string.required    |
-| max(number)   | maximous limit     | t.string.max(10)     |
-| min(number)   | minimous limit     | t.string.min(1)      |
+| max(number)   | maximum limit      | t.string.max(10)     |
+| min(number)   | minimum limit      | t.string.min(1)      |
 
 ### Number
 Validates if type is number. Example:
@@ -82,7 +82,7 @@ You can use this validators in number type:
 | ------------- | ---------------------------- |:--------------------:|
 | required      | makes key required           | t.number.required    |
 | positive      | checks if number is positive | t.number.positive    |
-| negative      | checks if number is positive | t.number.negative    |
+| negative      | checks if number is negative | t.number.negative    |
 
 ### Boolean
 Validates if type is boolean. Example:
@@ -119,3 +119,35 @@ You can use this validators in array type:
 | notEmpty              | check if array legnth is not empty                       | t.array.notEmpty         |
 
 
+## Express Framework Integration
+
+You can use our middleware with express to check jsons. You can do it calling to createMiddleware function
+to create a middleware:
+
+```javascript
+validator.create(t => ({
+  user: t.string.required,  
+  age: t.number,  
+  text: t.string.max(10).required,  
+}), 'name');
+
+app.post('/', validator.createMiddleware('name'), (req, res) => res.send(req.body););
+```
+
+By default, the middleware, when a json is not valid, returns this json with html status code 400:
+
+`
+{
+  status: 400,
+  message: 'invalid json'
+}
+`
+
+You can customize this passing to createMiddleware your json and the status code:
+
+```javascript
+const json = {
+  error: 'bad json',
+};
+const middleware = validator.createMiddleware('validator name', json, 401);
+```
