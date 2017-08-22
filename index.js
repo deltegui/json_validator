@@ -1,5 +1,6 @@
 const types = require('./types');
 const Validator = require('./validator');
+const expressMiddleware = require('./express-middleware');
 
 const jsonValidator = {
   validators: {},
@@ -27,6 +28,17 @@ const jsonValidator = {
    */
   validate(json, validatorName) {
     return this.validators[validatorName].validate(json);
+  },
+
+  /**
+   * Creates a new express middleware that
+   * checks if the json validates with the
+   * given validator.
+   * @param {string} validatorName
+   * @return {function}
+   */
+  createMiddleware(validatorName) {
+    return expressMiddleware(this.validators[validatorName]);
   },
 };
 
