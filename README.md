@@ -119,3 +119,35 @@ You can use this validators in array type:
 | notEmpty              | check if array legnth is not empty                       | t.array.notEmpty         |
 
 
+## Express Framework Integration
+
+You can use our middleware with express to check jsons. You can do it calling to createMiddleware function
+to create a middleware:
+
+```javascript
+validator.create(t => ({
+  user: t.string.required,  
+  age: t.number,  
+  text: t.string.max(10).required,  
+}), 'name');
+
+app.post('/', validator.createMiddleware('name'), (req, res) => res.send(req.body););
+```
+
+By default, the middleware, when a json is not valid, returns this json with html status code 400:
+
+`
+{
+  status: 400,
+  message: 'invalid json'
+}
+`
+
+You can customize this passing to createMiddleware your json and the status code:
+
+```javascript
+const json = {
+  error: 'bad json',
+};
+const middleware = validator.createMiddleware('validator name', json, 401);
+```

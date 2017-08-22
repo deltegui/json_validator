@@ -3,6 +3,14 @@ const expect = require('chai').expect;
 const types = require('../types');
 
 describe('Types', () => {
+  it('when a falsy value is passed when is not the type, should return false', () => {
+    expect(types.string.isValid(0)).to.be.false;
+    expect(types.array.isValid('')).to.be.false;
+    expect(types.boolean.isValid(null)).to.be.false;
+    expect(types.array.isValid(NaN)).to.be.false;
+    // undefined is not a valid json value.
+  });
+
   describe('StringType', () => {
     it('should validate a string', () => {
       expect(types.string.isValid('string')).to.be.true;
@@ -35,12 +43,20 @@ describe('Types', () => {
       expect(types.number.negative.isValid(-1)).to.be.true;
       expect(types.number.negative.isValid(1)).to.be.false;
     });
+
+    it('when NaN is passed to number type, should be true', () => {
+      expect(types.number.isValid(NaN)).to.be.true; // TODO Should this be false???
+    });
   });
 
   describe('BooleanType', () => {
     it('should validate a boolean', () => {
-      expect(types.boolean.required.isValid(true)).to.be.true;
-      expect(types.boolean.required.isValid('')).to.be.false;
+      expect(types.boolean.isValid(true)).to.be.true;
+      expect(types.boolean.isValid(false)).to.be.true;
+    });
+
+    it('should not validate something that is not boolean', () => {
+      expect(types.boolean.isValid('blabla')).to.be.false;
     });
   });
 
