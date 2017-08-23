@@ -22,7 +22,10 @@ class Validator {
     for(const key of Object.keys(struct)) {
       if(isObjectLiteral(struct[key])) {
         if(!this.validate(json[key], struct[key])) return false;
-      } else if(!struct[key].isValid(json[key])) return false;
+      } else {
+        const isPropertyPresent = Object.prototype.hasOwnProperty.call(json, key);
+        if(!struct[key].isValid(json[key], isPropertyPresent)) return false;
+      }
     }
     return true;
   }

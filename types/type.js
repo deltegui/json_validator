@@ -9,8 +9,8 @@ class Type {
     return this;
   }
 
-  isValid(value) {
-    if(value === undefined && !this.isRequired) return true;
+  isValid(value, present = true) {
+    if(!present && !this.isRequired) return true;
     for(const validator of this.validators) {
       if(!validator(value)) return false;
     }

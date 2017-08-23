@@ -8,7 +8,7 @@ describe('Types', () => {
     expect(types.array.isValid('')).to.be.false;
     expect(types.boolean.isValid(null)).to.be.false;
     expect(types.array.isValid(NaN)).to.be.false;
-    // undefined is not a valid json value.
+    expect(types.array.isValid(undefined)).to.be.false;
   });
 
   describe('StringType', () => {
