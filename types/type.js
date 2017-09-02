@@ -1,7 +1,17 @@
 /* eslint-disable no-restricted-syntax */
+
+function shouldBeValidator(admitValues) {
+  return value => admitValues.find(element => element === value);
+}
+
 class Type {
   constructor() {
     this.validators = [];
+  }
+
+  shouldBe(...values) {
+    this.validators.push(shouldBeValidator(values));
+    return this;
   }
 
   get required() {

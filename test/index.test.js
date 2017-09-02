@@ -51,6 +51,21 @@ describe('JsonValidator', () => {
       expect(result).to.be.false;
     });
 
+    it('should check if a param is one of the wanted values', () => {
+      const json = {
+        user: 'demo',
+        age: 123,
+        type: 'bad type',
+      };
+      validator.create(t => ({
+        user: t.string,
+        age: t.number,
+        type: t.string.shouldBe('reader', 'editor', 'admin').required,
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.false;
+    });
+
     it('should validate nested jsons if bad', () => {
       const json = {
         data: {
