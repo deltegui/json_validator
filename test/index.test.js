@@ -51,7 +51,7 @@ describe('JsonValidator', () => {
       expect(result).to.be.false;
     });
 
-    it('should check if a param is one of the wanted values', () => {
+    it('should check if a param is one of the wanted values (bad)', () => {
       const json = {
         user: 'demo',
         age: 123,
@@ -61,6 +61,51 @@ describe('JsonValidator', () => {
         user: t.string,
         age: t.number,
         type: t.string.shouldBe('reader', 'editor', 'admin').required,
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.false;
+    });
+
+    it('should check if a param is one of the wanted values', () => {
+      const json = {
+        user: 'demo',
+        age: 123,
+        type: 'reader',
+      };
+      validator.create(t => ({
+        user: t.string,
+        age: t.number,
+        type: t.string.shouldBe('reader', 'editor', 'admin').required,
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.true;
+    });
+
+    it('should check if a array deep is one of the wanted values', () => {
+      const json = {
+        user: 'demo',
+        age: 123,
+        type: [1, 'hola'],
+      };
+      validator.create(t => ({
+        user: t.string,
+        age: t.number,
+        type: t.array.shouldBe([1, 'hola'], ['hi']).required,
+      }), 'demoValidator');
+      const result = validator.validate(json, 'demoValidator');
+      expect(result).to.be.true;
+    });
+
+    it('should check if a boolean is one of the wanted values', () => {
+      const json = {
+        user: 'demo',
+        age: 123,
+        type: false,
+      };
+      validator.create(t => ({
+        user: t.string,
+        age: t.number,
+        type: t.boolean.shouldBe(true).required,
       }), 'demoValidator');
       const result = validator.validate(json, 'demoValidator');
       expect(result).to.be.false;

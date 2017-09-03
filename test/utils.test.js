@@ -33,4 +33,24 @@ describe('utils', () => {
       expect(utils.flattenObject(originalObject)).to.deep.equal(expectedObject);
     });
   });
+
+  describe('arrayEquals', () => {
+    it('arrayEquals should check if two arrays are equals', () => {
+      const arr1 = [1, 2, 3, 4];
+      const arr2 = [1, 2, 3, 4];
+      expect(utils.arrayEquals(arr1, arr2)).to.be.true;
+    });
+
+    it('arrayEquals should check if two arrays are deep equals', () => {
+      const arr1 = [1, 2, ['apple', 'linux'], 4];
+      const arr2 = [1, 2, ['apple', 'linux'], 4];
+      expect(utils.arrayEquals(arr1, arr2)).to.be.true;
+    });
+
+    it('arrayEquals should check if two arrays are not deep equals', () => {
+      const arr1 = [1, 2, ['apple', 'linux'], 4];
+      const arr2 = [1, 2, ['apple', 'windows'], 4];
+      expect(utils.arrayEquals(arr1, arr2)).to.be.false;
+    });
+  });
 });

@@ -1,7 +1,14 @@
 /* eslint-disable no-restricted-syntax */
+const { arrayEquals } = require('../utils');
 
 function shouldBeValidator(admitValues) {
-  return value => admitValues.find(element => element === value);
+  return (value) => {
+    if(value instanceof Array) {
+      const arraysToCompare = admitValues.filter(e => e instanceof Array);
+      return arraysToCompare.find(e => arrayEquals(value, e));
+    }
+    return admitValues.find(element => element === value);
+  };
 }
 
 class Type {

@@ -61,11 +61,12 @@ validator.create(t => ({
 
 You can use this validators in string type:
 
-| Validator     | Explanation        | Example              |
-| ------------- | ------------------ |:--------------------:|
-| required      | makes key required | t.string.required    |
-| max(number)   | maximum limit      | t.string.max(10)     |
-| min(number)   | minimum limit      | t.string.min(1)      |
+| Validator     | Explanation                  | Example                                   |
+| ------------- | ---------------------------- |:-----------------------------------------:|
+| required      | makes key required           | t.string.required                         |
+| shouldBe      | checks if the values matches | t.string.shouldBe('apples', 'oranges')    |
+| max(number)   | maximum limit                | t.string.max(10)                          |
+| min(number)   | minimum limit                | t.string.min(1)                           |
 
 ### Number
 Validates if type is number. Example:
@@ -78,11 +79,12 @@ validator.create(t => ({
 
 You can use this validators in number type:
 
-| Validator     | Explanation                  | Example              |
-| ------------- | ---------------------------- |:--------------------:|
-| required      | makes key required           | t.number.required    |
-| positive      | checks if number is positive | t.number.positive    |
-| negative      | checks if number is negative | t.number.negative    |
+| Validator     | Explanation                  | Example                   |
+| ------------- | ---------------------------- |:-------------------------:|
+| required      | makes key required           | t.number.required         |
+| shouldBe      | checks if the values matches | t.number.shouldBe(22, 21) |
+| positive      | checks if number is positive | t.number.positive         |
+| negative      | checks if number is negative | t.number.negative         |
 
 ### Boolean
 Validates if type is boolean. Example:
@@ -95,9 +97,10 @@ validator.create(t => ({
 
 You can use this validators in boolean type:
 
-| Validator     | Explanation        | Example              |
-| ------------- | ------------------ |:--------------------:|
-| required      | makes key required | t.boolean.required   |
+| Validator     | Explanation                  | Example                   |
+| ------------- | ---------------------------- |:-------------------------:|
+| required      | makes key required           | t.boolean.required        |
+| shouldBe      | checks if the value matches  | t.boolean.shouldBe(false) |
 
 ### Array
 Validates if type is array. Example:
@@ -110,13 +113,14 @@ validator.create(t => ({
 
 You can use this validators in array type:
 
-| Validator             | Explanation                                              | Example                  |
-| --------------------- | -------------------------------------------------------- |:------------------------:|
-| required              | makes key required                                       | t.array.required         |
-| exactLength(number)   | check if array length is exactly the specified length    | t.array.exactLength(20)  |
-| lengthLowerTo(number) | check if array length is lower to the specified length   | t.array.lengthLowerTo(9) |
-| lengthUpperTo(number) | check if array length is upper to the specified length   | t.array.lengthUpperTo(1) |
-| notEmpty              | check if array legnth is not empty                       | t.array.notEmpty         |
+| Validator             | Explanation                                              | Example                               |
+| --------------------- | -------------------------------------------------------- |:-------------------------------------:|
+| required              | makes key required                                       | t.array.required                      |
+| shouldBe              | checks if the values matches                             | t.array.shouldBe([22, 21], [1, 'hi']) | 
+| exactLength(number)   | check if array length is exactly the specified length    | t.array.exactLength(20)               |
+| lengthLowerTo(number) | check if array length is lower to the specified length   | t.array.lengthLowerTo(9)              |
+| lengthUpperTo(number) | check if array length is upper to the specified length   | t.array.lengthUpperTo(1)              |
+| notEmpty              | check if array legnth is not empty                       | t.array.notEmpty                      |
 
 
 ## Express Framework Integration
