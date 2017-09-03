@@ -2,7 +2,7 @@ const types = require('./types');
 const Validator = require('./validator');
 const expressMiddleware = require('./express-middleware');
 
-const jsonValidator = {
+module.exports = () => ({
   validators: {},
 
   /**
@@ -40,6 +40,4 @@ const jsonValidator = {
   createMiddleware(validatorName) {
     return expressMiddleware(this.validators[validatorName]);
   },
-};
-
-module.exports = () => jsonValidator;
+});

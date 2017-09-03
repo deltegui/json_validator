@@ -9,6 +9,12 @@ describe('JsonValidator', () => {
     validator = jsonValidator();
   });
 
+  it('for each call, should create differents objects', () => {
+    const v1 = jsonValidator();
+    const v2 = jsonValidator();
+    expect(v1 === v2).to.be.false;
+  });
+
   describe('create function', () => {
     it('should store a new validator', () => {
       validator.create(t => ({
