@@ -1,4 +1,5 @@
 # SimpleJsonValidator
+[![BCH compliance](https://bettercodehub.com/edge/badge/frikiman34/SimpleJsonValidator?branch=master)](https://bettercodehub.com/)
 Json Validator for NodeJS with simple ruby-like syntax
 
 ## Installation
