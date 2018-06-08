@@ -8,8 +8,8 @@ module.exports = () => ({
   /**
    * Creates and stores a new json validator with
    * a name.
-   * @param {function} callback 
-   * @param {string} name 
+   * @param {function} callback
+   * @param {string} name
    * @return {Validator}
    */
   create(callback, name) {
@@ -22,7 +22,7 @@ module.exports = () => ({
   /**
    * Check if json is valid according to validator
    * associated with the validatorName.
-   * @param {Object} json 
+   * @param {Object} json
    * @param {string} validatorName
    * @return {boolean}
    */
