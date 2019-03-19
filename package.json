@@ -14,8 +14,8 @@
   "author": "Diego Dlegado Barcaiztegui",
   "license": "GPL-3.0",
   "devDependencies": {
-    "chai": "^4.1.1",
-    "eslint": "^4.5.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-mocha": "^4.11.0",
