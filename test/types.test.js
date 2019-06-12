@@ -60,7 +60,7 @@ describe('Types', () => {
     });
   });
 
-  describe('ArrayLength', () => {
+  describe('ArrayType', () => {
     it('should validate an array', () => {
       expect(types.array.isValid([])).to.be.true;
       expect(types.array.isValid({})).to.be.false;
@@ -84,6 +84,24 @@ describe('Types', () => {
     it('should check if an array is not empty', () => {
       expect(types.array.notEmpty.isValid([0, 1])).to.be.true;
       expect(types.array.notEmpty.isValid([])).to.be.false;
+    });
+  });
+
+  describe('DateType', () => {
+    const date = new Date();
+    it('should validate a date', () => {
+      expect(types.date.isValid(date.toJSON())).to.be.true;
+      expect(types.boolean.isValid('')).to.be.false;
+    });
+
+    it('should validate a date that is after other', () => {
+      expect(types.date.afterDate(new Date(1997, 8)).isValid(new Date())).to.be.true;
+      expect(types.date.afterDate(new Date(1997, 8)).isValid(new Date(1970, 0))).to.be.false;
+    });
+
+    it('should validate a date that is before other', () => {
+      expect(types.date.beforeDate(new Date(1997, 8)).isValid(new Date())).to.be.false;
+      expect(types.date.beforeDate(new Date(1997, 8)).isValid(new Date(1970, 0))).to.be.true;
     });
   });
 });

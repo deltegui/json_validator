@@ -28,6 +28,11 @@ class StringType extends Type {
     this.validators.push(maxStringValidator(maxLength));
     return this;
   }
+
+  get notEmpty() {
+    this.validators.push(minStringValidator(0));
+    return this;
+  }
 }
 
 module.exports = StringType;
