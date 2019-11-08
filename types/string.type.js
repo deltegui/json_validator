@@ -13,6 +13,10 @@ function stringValidator(str) {
   return typeof str === 'string';
 }
 
+function matchValidator(regex) {
+  return str => regex.test(str);
+}
+
 class StringType extends Type {
   constructor() {
     super();
@@ -31,6 +35,11 @@ class StringType extends Type {
 
   get notEmpty() {
     this.validators.push(minStringValidator(0));
+    return this;
+  }
+
+  matches(regex) {
+    this.validators.push(matchValidator(regex));
     return this;
   }
 }
