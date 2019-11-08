@@ -70,6 +70,7 @@ You can use this validators in string type:
 | shouldBe      | checks if the values matches | t.string.shouldBe('apples', 'oranges')    |
 | max(number)   | maximum limit                | t.string.max(10)                          |
 | min(number)   | minimum limit                | t.string.min(1)                           |
+| matches(regex)| tests if string matches regex| t.string.matches(/Regex/)                 |
 
 ### Number
 Validates if type is number. Example:

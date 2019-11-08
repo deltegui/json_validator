@@ -26,6 +26,11 @@ describe('Types', () => {
       expect(types.string.min(1).isValid('hi!')).to.be.true;
       expect(types.string.min(11).isValid('hello')).to.be.false;
     });
+
+    it('should test a regular expression on string', () => {
+      expect(types.string.matches(/^A/).isValid('Algete')).to.be.true;
+      expect(types.string.matches(/z$/).isValid('Algete')).to.be.false;
+    });
   });
 
   describe('NumberType', () => {
