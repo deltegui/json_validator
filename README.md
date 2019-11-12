@@ -23,9 +23,9 @@ Then, you can create validators using the 'create' method, which accepts a callb
 ```javascript
 validator.create(t => ({
   user: t.string.required,  
-  age: t.number,  
-  text: t.string.max(10).required,  
-}), 'validatorName');  
+  age: t.number,
+  text: t.string.max(10).required,
+}), 'validatorName');
 ```
 
 Finally, you can validate any json using 'validate' function:
@@ -33,10 +33,10 @@ Finally, you can validate any json using 'validate' function:
 ```javascript
 const json = {
   user: 'user',  
-  age: 22,  
-  text: '123456789',  
-};  
-validator.validate(json, 'validatorName');  
+  age: 22,
+  text: '123456789',
+};
+validator.validate(json, 'validatorName');
 ```
 
 You can also nest objects like this:
@@ -120,11 +120,29 @@ You can use this validators in array type:
 | Validator             | Explanation                                              | Example                               |
 | --------------------- | -------------------------------------------------------- |:-------------------------------------:|
 | required              | makes key required                                       | t.array.required                      |
-| shouldBe              | checks if the values matches                             | t.array.shouldBe([22, 21], [1, 'hi']) | 
+| shouldBe              | checks if the values matches                             | t.array.shouldBe([22, 21], [1, 'hi']) |
 | exactLength(number)   | check if array length is exactly the specified length    | t.array.exactLength(20)               |
 | lengthLowerTo(number) | check if array length is lower to the specified length   | t.array.lengthLowerTo(9)              |
 | lengthUpperTo(number) | check if array length is upper to the specified length   | t.array.lengthUpperTo(1)              |
 | notEmpty              | check if array legnth is not empty                       | t.array.notEmpty                      |
+
+### Date
+Validates if type is date. Example:
+
+```javascript
+validator.create(t => ({
+  key: t.date,
+}));
+````
+
+You can use this validators in date type:
+
+| Validator         | Explanation                                | Example                              |
+| ----------------- | ------------------------------------------ |:------------------------------------:|
+| required          | makes key required                         | t.date.required                      |
+| shouldBe          | checks if the values matches               | t.date.shouldBe(new Date())          |
+| beforeDate(Date)  | check if the date is before desired date   | t.date.beforeDate(new Date())        |
+| afterDate(Date)   | check if the date is after desired date    | t.date.afterDate(new Date())         |
 
 
 ## Express Framework Integration
@@ -135,8 +153,8 @@ to create a middleware:
 ```javascript
 validator.create(t => ({
   user: t.string.required,  
-  age: t.number,  
-  text: t.string.max(10).required,  
+  age: t.number,
+  text: t.string.max(10).required,
 }), 'name');
 
 app.post('/', validator.createMiddleware('name'), (req, res) => res.send(req.body););
