@@ -12,7 +12,7 @@ Use this url "https://https://deno.land/x/json_validator/mod.js"
 First you need to create a new JsonValidator instance calling to exported function:
 
 ```javascript
-import JsonValidator from 'https://https://deno.land/x/json_validator/mod.js';
+import JsonValidator from 'https://deno.land/x/json_validator/mod.js';
 const validator = new JsonValidator();
 ```
 
