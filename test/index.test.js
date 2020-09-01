@@ -1,4 +1,4 @@
-import JsonValidator from '../mod.js';
+import { JsonValidator } from '../mod.js';
 import { Rhum, expect } from '../deps.js';
 
 Rhum.testPlan('JsonValidator', () => {

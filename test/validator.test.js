@@ -1,5 +1,5 @@
 import { Rhum } from '../deps.js';
-import JsonValidator from '../mod.js';
+import { JsonValidator } from '../mod.js';
 
 Rhum.testPlan('validator.ts', () => {
   Rhum.testSuite('when validate', () => {

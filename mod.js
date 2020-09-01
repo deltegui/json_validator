@@ -1,7 +1,7 @@
 import types from './types/index.js';
 import Validator from './validator.js';
 
-export default class JsonValidator {
+export class JsonValidator {
   constructor(validators = {}) {
     this.validators = validators;
   }
