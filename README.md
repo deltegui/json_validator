@@ -143,37 +143,3 @@ You can use this validators in date type:
 | shouldBe          | checks if the values matches               | t.date.shouldBe(new Date())          |
 | beforeDate(Date)  | check if the date is before desired date   | t.date.beforeDate(new Date())        |
 | afterDate(Date)   | check if the date is after desired date    | t.date.afterDate(new Date())         |
-
-
-## Express Framework Integration
-
-You can use our middleware with express to check jsons. You can do it calling to createMiddleware function
-to create a middleware:
-
-```javascript
-validator.create(t => ({
-  user: t.string.required,  
-  age: t.number,
-  text: t.string.max(10).required,
-}), 'name');
-
-app.post('/', validator.createMiddleware('name'), (req, res) => res.send(req.body););
-```
-
-By default, the middleware, when a json is not valid, returns this json with html status code 400:
-
-`
-{
-  status: 400,
-  message: 'invalid json'
-}
-`
-
-You can customize this passing to createMiddleware your json and the status code:
-
-```javascript
-const json = {
-  error: 'bad json',
-};
-const middleware = validator.createMiddleware('validator name', json, 401);
-```

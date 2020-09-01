@@ -1,10 +1,8 @@
-/* eslint-disable no-plusplus */
-
-function isObjectLiteral(type) {
+export function isObjectLiteral(type) {
   return typeof type === 'object' && type.constructor === Object;
 }
 
-function flattenObject(obj) {
+export function flattenObject(obj) {
   return Object.keys(obj).reduce((result, key) => {
     if(isObjectLiteral(obj[key])) {
       return Object.assign(result, flattenObject(obj[key]));
@@ -13,7 +11,7 @@ function flattenObject(obj) {
   }, {});
 }
 
-function arrayEquals(arr, arrToCompare) {
+export function arrayEquals(arr, arrToCompare) {
   if(arr.length !== arrToCompare.length) return false;
   for(let pos = 0; pos < arr.length; pos++) {
     if(arr[pos] instanceof Array && arrToCompare[pos] instanceof Array) {
@@ -22,9 +20,3 @@ function arrayEquals(arr, arrToCompare) {
   }
   return true;
 }
-
-module.exports = {
-  isObjectLiteral,
-  flattenObject,
-  arrayEquals,
-};

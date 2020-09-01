@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-syntax */
-const { isObjectLiteral, flattenObject } = require('./utils');
+import { isObjectLiteral, flattenObject } from './utils.js';
 
 function notHaveRequiedKey(struct) {
   const flattenStruct = flattenObject(struct);
@@ -10,7 +9,7 @@ function notHaveRequiedKey(struct) {
   return notRequired;
 }
 
-class Validator {
+export default class Validator {
   constructor(jsonStructure) {
     this.structure = jsonStructure;
   }
@@ -30,5 +29,3 @@ class Validator {
     return true;
   }
 }
-
-module.exports = Validator;

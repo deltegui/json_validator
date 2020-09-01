@@ -1,21 +1,23 @@
-/* eslint-disable no-unused-expressions */
-const utils = require('../utils');
-const expect = require('chai').expect;
+import { Rhum, expect } from '../deps.js';
+import {
+  isObjectLiteral,
+  flattenObject,
+  arrayEquals,
+} from '../utils.js';
 
-describe('utils', () => {
-  describe('isObjectLiteral', () => {
-    it('should return true if object is literal', () => {
-      expect(utils.isObjectLiteral({})).to.be.true;
-    });
+Rhum.testPlan('utils.ts', () => {
+  Rhum.testSuite('isObjectLiteral', () => {
+    Rhum.testCase('should return true if object is literal', () =>
+      expect(isObjectLiteral({})).toBeTruthy());
 
-    it('should return false is object is created with new', () => {
-      function MyObject() {}
-      expect(utils.isObjectLiteral(new MyObject())).to.be.false;
+    Rhum.testCase('should return false is object is created with new', () => {
+      class MyObject {}
+      expect(isObjectLiteral(new MyObject())).toBeFalsy();
     });
   });
 
-  describe('flattenObject', () => {
-    it('should create a one-level object from multi-level object', () => {
+  Rhum.testSuite('flattenObject', () => {
+    Rhum.testCase('should create a one-level object from multi-level object', () => {
       const originalObject = {
         param1: 'param1',
         obj: {
@@ -30,27 +32,29 @@ describe('utils', () => {
         param2: 'param2',
         param3: 'param3',
       };
-      expect(utils.flattenObject(originalObject)).to.deep.equal(expectedObject);
+      expect(flattenObject(originalObject)).toEqual(expectedObject);
     });
   });
 
-  describe('arrayEquals', () => {
-    it('arrayEquals should check if two arrays are equals', () => {
+  Rhum.testSuite('arrayEquals', () => {
+    Rhum.testCase('should check if two arrays are equals', () => {
       const arr1 = [1, 2, 3, 4];
       const arr2 = [1, 2, 3, 4];
-      expect(utils.arrayEquals(arr1, arr2)).to.be.true;
+      expect(arrayEquals(arr1, arr2)).toBeTruthy();
     });
 
-    it('arrayEquals should check if two arrays are deep equals', () => {
+    Rhum.testCase('should check if two arrays are deep equals', () => {
       const arr1 = [1, 2, ['apple', 'linux'], 4];
       const arr2 = [1, 2, ['apple', 'linux'], 4];
-      expect(utils.arrayEquals(arr1, arr2)).to.be.true;
+      expect(arrayEquals(arr1, arr2)).toBeTruthy();
     });
 
-    it('arrayEquals should check if two arrays are not deep equals', () => {
+    Rhum.testCase('should check if two arrays are not deep equals', () => {
       const arr1 = [1, 2, ['apple', 'linux'], 4];
       const arr2 = [1, 2, ['apple', 'windows'], 4];
-      expect(utils.arrayEquals(arr1, arr2)).to.be.false;
-    });
+      expect(arrayEquals(arr1, arr2)).toBeFalsy();
+    })
   });
 });
+
+Rhum.run();
