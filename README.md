@@ -5,17 +5,15 @@
 Json Validator for NodeJS with simple ruby-like syntax
 
 ## Installation
-You can install this library using npm:
-
-`npm i --save simplejsonvalidator`
+Use this url "https://https://deno.land/x/json_validator/mod.js"
 
 ## Usage
 
 First you need to create a new JsonValidator instance calling to exported function:
 
 ```javascript
-const jsonValidator = require('simplejsonvalidator');
-const validator = jsonValidator();
+import JsonValidator from 'https://https://deno.land/x/json_validator/mod.js';
+const validator = new JsonValidator();
 ```
 
 Then, you can create validators using the 'create' method, which accepts a callback and the validator name
