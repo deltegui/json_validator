@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-const Type = require('./type');
+import Type from './type.js';
 
 function positiveValidator(number) {
   return number >= 0;
@@ -13,7 +12,7 @@ function numberValidator(number) {
   return typeof number === 'number';
 }
 
-class NumberType extends Type {
+export default class NumberType extends Type {
   constructor() {
     super();
     this.validators.push(numberValidator);
@@ -29,5 +28,3 @@ class NumberType extends Type {
     return this;
   }
 }
-
-module.exports = NumberType;

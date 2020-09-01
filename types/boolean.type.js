@@ -1,15 +1,12 @@
-/* eslint-disable class-methods-use-this */
-const Type = require('./type');
+import Type from './type.js';
 
 function booleanValidator(bool) {
   return typeof bool === 'boolean';
 }
 
-class BooleanType extends Type {
+export default class BooleanType extends Type {
   constructor() {
     super();
     this.validators.push(booleanValidator);
   }
 }
-
-module.exports = BooleanType;
