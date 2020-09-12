@@ -1,169 +1,112 @@
-import { Rhum, expect } from '../deps.js';
-import types from '../types/index.js';
-import { parametrizedTest } from './utils.js';
+/* eslint-disable no-unused-expressions */
+const expect = require('chai').expect;
+const types = require('../types');
 
-Rhum.testPlan('types.ts', () => {
-  Rhum.testSuite('General', () => {
-    Rhum.testCase('when a falsy value is passed when is not the type, should return false', () => {
-      expect(types.string.isValid(0)).toBeFalsy();
-      expect(types.array.isValid('')).toBeFalsy();
-      expect(types.boolean.isValid(null)).toBeFalsy();
-      expect(types.array.isValid(NaN)).toBeFalsy();
-      expect(types.array.isValid(undefined)).toBeFalsy();
+describe('Types', () => {
+  it('when a falsy value is passed when is not the type, should return false', () => {
+    expect(types.string.isValid(0)).to.be.false;
+    expect(types.array.isValid('')).to.be.false;
+    expect(types.boolean.isValid(null)).to.be.false;
+    expect(types.array.isValid(NaN)).to.be.false;
+    expect(types.array.isValid(undefined)).to.be.false;
+  });
+
+  describe('StringType', () => {
+    it('should validate a string', () => {
+      expect(types.string.isValid('string')).to.be.true;
+      expect(types.string.isValid(11)).to.be.false;
+    });
+
+    it('should check if string is under max limit', () => {
+      expect(types.string.max(11).isValid('hi!')).to.be.true;
+      expect(types.string.max(2).isValid('hello')).to.be.false;
+    });
+
+    it('should check if string is upper min limit', () => {
+      expect(types.string.min(1).isValid('hi!')).to.be.true;
+      expect(types.string.min(11).isValid('hello')).to.be.false;
+    });
+
+    it('should test a regular expression on string', () => {
+      expect(types.string.matches(/^A/).isValid('Algete')).to.be.true;
+      expect(types.string.matches(/z$/).isValid('Algete')).to.be.false;
     });
   });
 
-  Rhum.testSuite('StringType', () => {
-    parametrizedTest('should validate a string', {
-      params: [
-        { value: 'string', expected: true },
-        { value: 11, expected: false},
-        { value: false, expected: false },
-        { value: undefined, expected: false },
-      ],
-      test: ({ value }) => types.string.isValid(value),
+  describe('NumberType', () => {
+    it('should validate a number', () => {
+      expect(types.number.isValid(11)).to.be.true;
+      expect(types.number.isValid('hi')).to.be.false;
     });
 
-    parametrizedTest('should check if string is under max limit', {
-      params: [
-        { str: 'hi!', max: 11, expected: true },
-        { str: 'hello', max: 2, expected: false },
-      ],
-      test: ({ str, max }) => types.string.max(max).isValid(str),
+    it('should check if a number is positive', () => {
+      expect(types.number.positive.isValid(1)).to.be.true;
+      expect(types.number.positive.isValid(-1)).to.be.false;
     });
 
-    parametrizedTest('should check if string is upper min limit', {
-      params: [
-        { str: 'hi!', min: 1, expected: true },
-        { str: 'hello', min: 11, expected: false },
-      ],
-      test: ({ str, min }) => types.string.min(min).isValid(str),
-    })
-
-    parametrizedTest('should test a regular expression on string', {
-      params: [
-        { str: 'Algete', regex: /^A/, expected: true },
-        { str: 'Algete', regex: /z$/, expected: false },
-      ],
-      test: ({ str, regex }) => types.string.matches(regex).isValid(str),
-    })
-  });
-
-  Rhum.testSuite('NumberType', () => {
-    parametrizedTest('should validate a number', {
-      params: [
-        { number: 11, expected: true },
-        { number: 'hi', expected: false },
-      ],
-      test: ({ number }) => types.number.isValid(number),
-    })
-
-    parametrizedTest('should check if a number is positive', {
-      params: [
-        { number: 1, expected: true },
-        { number: -1, expected: false },
-      ],
-      test: ({ number }) => types.number.positive.isValid(number),
+    it('should check if a number is negative', () => {
+      expect(types.number.negative.isValid(-1)).to.be.true;
+      expect(types.number.negative.isValid(1)).to.be.false;
     });
 
-    parametrizedTest('should check if a number is negative', {
-      params: [
-        { number: -1, expected: true },
-        { number: 1, expected: false },
-      ],
-      test: ({ number }) => types.number.negative.isValid(number),
-    });
-
-    Rhum.testCase('when NaN is passed to number type, should be true', () => {
-      expect(types.number.isValid(NaN)).toBeTruthy(); // TODO Should this be false???
+    it('when NaN is passed to number type, should be true', () => {
+      expect(types.number.isValid(NaN)).to.be.true; // TODO Should this be false???
     });
   });
 
-  Rhum.testSuite('BooleanType', () => {
-    parametrizedTest('should validate a boolean', {
-      params: [
-        { bool: true, expected: true },
-        { bool: false, expected: true },
-        { bool: null, expected: false },
-        { bool: undefined, expected: false },
-        { bool: 1, expected: false },
-        { bool: 'blabla', expected: false },
-      ],
-      test: ({ bool }) => types.boolean.isValid(bool),
+  describe('BooleanType', () => {
+    it('should validate a boolean', () => {
+      expect(types.boolean.isValid(true)).to.be.true;
+      expect(types.boolean.isValid(false)).to.be.true;
+    });
+
+    it('should not validate something that is not boolean', () => {
+      expect(types.boolean.isValid('blabla')).to.be.false;
     });
   });
 
-  Rhum.testSuite('ArrayType', () => {
-    parametrizedTest('should validate an array', {
-      params: [
-        { array: [], expected: true },
-        { array: [1, 3, 4, 'h', false, {}], expected: true },
-        { array: {}, expected: false },
-        { array: 'hola', expected: false },
-      ],
-      test: ({ array }) => types.array.isValid(array),
+  describe('ArrayType', () => {
+    it('should validate an array', () => {
+      expect(types.array.isValid([])).to.be.true;
+      expect(types.array.isValid({})).to.be.false;
     });
 
-    parametrizedTest('should check if an array have exact length', {
-      params: [
-        { array: [0, 1, 2], length: 3, expected: true },
-        { array: [1, 2], length: 1, expected: false },
-      ],
-      test: ({ array, length }) => types.array.exactLength(length).isValid(array),
+    it('should check if an array have exact length', () => {
+      expect(types.array.exactLength(3).isValid([0, 1, 2])).to.be.true;
+      expect(types.array.exactLength(1).isValid([1, 2])).to.be.false;
     });
 
-    parametrizedTest('should check if an array have upper length', {
-      params: [
-        { array: [0, 1, 2], lenghtUpperTo: 1, expected: true },
-        { array: [1, 2], lenghtUpperTo: 4, expected: false },
-      ],
-      test: ({ array, lenghtUpperTo }) => types.array.lengthUpperTo(lenghtUpperTo).isValid(array),
+    it('should check if an array have upper length', () => {
+      expect(types.array.lengthUpperTo(1).isValid([0, 1, 2])).to.be.true;
+      expect(types.array.lengthUpperTo(4).isValid([1, 2])).to.be.false;
     });
 
-    parametrizedTest('should check if an array have lower length', {
-      params: [
-        { array: [0, 1], lengthLowerTo: 3, expected: true },
-        { array: [1, 2], lengthLowerTo: 1, expected: false },
-      ],
-      test: ({ array, lengthLowerTo }) => types.array.lengthLowerTo(lengthLowerTo).isValid(array),
+    it('should check if an array have lower length', () => {
+      expect(types.array.lengthLowerTo(3).isValid([0, 1])).to.be.true;
+      expect(types.array.lengthLowerTo(1).isValid([1, 2])).to.be.false;
     });
 
-    parametrizedTest('should check if an array is not empty', {
-      params: [
-        { array: [0, 1], expected: true },
-        { array: [], expected: false },
-      ],
-      test: ({ array }) => types.array.notEmpty.isValid(array),
+    it('should check if an array is not empty', () => {
+      expect(types.array.notEmpty.isValid([0, 1])).to.be.true;
+      expect(types.array.notEmpty.isValid([])).to.be.false;
     });
   });
 
-  Rhum.testSuite('DateType', () => {
+  describe('DateType', () => {
     const date = new Date();
-
-    parametrizedTest('should validate a date', {
-      params: [
-        { date: date.toJSON(), expected: true },
-        { date: '', expected: false },
-      ],
-      test: ({ date }) => types.date.isValid(date),
+    it('should validate a date', () => {
+      expect(types.date.isValid(date.toJSON())).to.be.true;
+      expect(types.boolean.isValid('')).to.be.false;
     });
 
-    parametrizedTest('should validate a date that is after other', {
-      params: [
-        { before: new Date(1997, 8), after: date, expected: true },
-        { before: new Date(1997, 8), after: new Date(1970, 0), expected: false },
-      ],
-      test: ({ before, after }) => types.date.afterDate(before).isValid(after),
+    it('should validate a date that is after other', () => {
+      expect(types.date.afterDate(new Date(1997, 8)).isValid(new Date())).to.be.true;
+      expect(types.date.afterDate(new Date(1997, 8)).isValid(new Date(1970, 0))).to.be.false;
     });
 
-    parametrizedTest('should validate a date that is before other', {
-      params: [
-        { after: new Date(1997, 8), before: date, expected: false },
-        { after: new Date(1997, 8), before: new Date(1970, 0), expected: true },
-      ],
-      test: ({ before, after }) => types.date.beforeDate(after).isValid(before),
+    it('should validate a date that is before other', () => {
+      expect(types.date.beforeDate(new Date(1997, 8)).isValid(new Date())).to.be.false;
+      expect(types.date.beforeDate(new Date(1997, 8)).isValid(new Date(1970, 0))).to.be.true;
     });
   });
 });
-
-Rhum.run();

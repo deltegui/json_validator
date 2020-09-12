@@ -1,4 +1,5 @@
-import Type from './type.js';
+/* eslint-disable class-methods-use-this */
+const Type = require('./type');
 
 function exactLengthValidator(length) {
   return arr => arr.length === length;
@@ -20,7 +21,7 @@ function arrayValidator(arr) {
   return arr instanceof Array;
 }
 
-export default class ArrayType extends Type {
+class ArrayType extends Type {
   constructor() {
     super();
     this.validators.push(arrayValidator);
@@ -46,3 +47,5 @@ export default class ArrayType extends Type {
     return this;
   }
 }
+
+module.exports = ArrayType;

@@ -1,10 +1,10 @@
-import StringType from './string.type.js';
-import NumberType from './number.type.js';
-import BooleanType from './boolean.type.js';
-import ArrayType from './array.type.js';
-import DateType from './date.type.js';
+const StringType = require('./string.type');
+const NumberType = require('./number.type');
+const BooleanType = require('./boolean.type');
+const ArrayType = require('./array.type');
+const DateType = require('./date.type');
 
-export default {
+module.exports = {
   get string() {
     return new StringType();
   },

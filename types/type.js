@@ -1,4 +1,5 @@
-import { arrayEquals } from '../utils.js';
+/* eslint-disable no-restricted-syntax */
+const { arrayEquals } = require('../utils');
 
 function shouldBeValidator(admitValues) {
   return (value) => {
@@ -10,7 +11,7 @@ function shouldBeValidator(admitValues) {
   };
 }
 
-export default class Type {
+class Type {
   constructor() {
     this.validators = [];
   }
@@ -33,3 +34,5 @@ export default class Type {
     return true;
   }
 }
+
+module.exports = Type;

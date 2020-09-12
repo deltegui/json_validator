@@ -1,10 +1,9 @@
-import types from './types/index.js';
-import Validator from './validator.js';
+const types = require('./types');
+const Validator = require('./validator');
+const expressMiddleware = require('./express-middleware');
 
-export class JsonValidator {
-  constructor(validators = {}) {
-    this.validators = validators;
-  }
+module.exports = () => ({
+  validators: {},
 
   /**
    * Creates and stores a new json validator with
@@ -18,7 +17,7 @@ export class JsonValidator {
     const validator = new Validator(schema);
     this.validators[name] = validator;
     return validator;
-  }
+  },
 
   /**
    * Check if json is valid according to validator
@@ -29,5 +28,16 @@ export class JsonValidator {
    */
   validate(json, validatorName) {
     return this.validators[validatorName].validate(json);
-  }
-}
+  },
+
+  /**
+   * Creates a new express middleware that
+   * checks if the json validates with the
+   * given validator.
+   * @param {string} validatorName
+   * @return {function}
+   */
+  createMiddleware(validatorName) {
+    return expressMiddleware(this.validators[validatorName]);
+  },
+});

@@ -1,4 +1,4 @@
-import Type from './type.js';
+const Type = require('./type');
 
 function beforeDateValidator(beforeDate) {
   return (dateJSON) => {
@@ -24,7 +24,7 @@ function dateValidator(dateJSON) {
   return !isNaN(new Date(dateJSON));
 }
 
-export default class DateType extends Type {
+class DateType extends Type {
   constructor() {
     super();
     this.validators.push(dateValidator);
@@ -40,3 +40,5 @@ export default class DateType extends Type {
     return this;
   }
 }
+
+module.exports = DateType;

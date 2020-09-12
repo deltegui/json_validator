@@ -1,4 +1,5 @@
-import Type from './type.js';
+
+const Type = require('./type');
 
 function maxStringValidator(maxLength) {
   return str => str.length < maxLength;
@@ -16,7 +17,7 @@ function matchValidator(regex) {
   return str => regex.test(str);
 }
 
-export default class StringType extends Type {
+class StringType extends Type {
   constructor() {
     super();
     this.validators.push(stringValidator);
@@ -42,3 +43,5 @@ export default class StringType extends Type {
     return this;
   }
 }
+
+module.exports = StringType;
