@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+
 const jsonValidator = require('../index');
 const expect = require('chai').expect;
 
@@ -17,7 +17,7 @@ describe('JsonValidator', () => {
 
   describe('create function', () => {
     it('should store a new validator', () => {
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         text: t.string,
@@ -34,7 +34,7 @@ describe('JsonValidator', () => {
         age: 123,
         text: '123456789',
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         text: t.string,
@@ -48,7 +48,7 @@ describe('JsonValidator', () => {
         user: 'demo',
         age: 123,
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         text: t.string.required,
@@ -63,7 +63,7 @@ describe('JsonValidator', () => {
         age: 123,
         type: 'bad type',
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         type: t.string.shouldBe('reader', 'editor', 'admin').required,
@@ -78,7 +78,7 @@ describe('JsonValidator', () => {
         age: 123,
         type: 'reader',
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         type: t.string.shouldBe('reader', 'editor', 'admin').required,
@@ -93,7 +93,7 @@ describe('JsonValidator', () => {
         age: 123,
         type: [1, 'hola'],
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         type: t.array.shouldBe([1, 'hola'], ['hi']).required,
@@ -108,7 +108,7 @@ describe('JsonValidator', () => {
         age: 123,
         type: false,
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         user: t.string,
         age: t.number,
         type: t.boolean.shouldBe(true).required,
@@ -124,7 +124,7 @@ describe('JsonValidator', () => {
           age: 123,
         },
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         data: {
           user: t.string,
           age: t.number,
@@ -143,7 +143,7 @@ describe('JsonValidator', () => {
           text: 'hi!',
         },
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         data: {
           user: t.string,
           age: t.number,
@@ -165,7 +165,7 @@ describe('JsonValidator', () => {
           },
         },
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         data: {
           user: t.string,
           age: t.number,
@@ -179,7 +179,7 @@ describe('JsonValidator', () => {
       expect(result).to.be.true;
     });
 
-    it('should validate more nested jsons if not present and its not required', () => {
+    it('should validate nested json if not present and itsn required', () => {
       const json = {
         data: {
           name: 'demo',
@@ -187,7 +187,7 @@ describe('JsonValidator', () => {
           text: 'hi!',
         },
       };
-      validator.create(t => ({
+      validator.create((t) => ({
         data: {
           user: t.string,
           age: t.number,
