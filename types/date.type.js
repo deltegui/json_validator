@@ -3,6 +3,11 @@ const error = require('./error');
 
 const dateError = (message) => error('date', message);
 
+function formatDate(date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` +
+    ` ${date.getHours()}:${date.getMonth()}:${date.getSeconds()}`;
+}
+
 function beforeDateValidator(beforeDate) {
   const test = (dateJSON) => {
     const date = new Date(dateJSON);
@@ -11,9 +16,10 @@ function beforeDateValidator(beforeDate) {
     }
     return date.getTime() < beforeDate.getTime();
   };
+  const beforeFormat = formatDate(beforeDate);
   return {
     error: (value) =>
-      dateError(`date "${value}" must be before "${beforeDate}"`),
+      dateError(`date "${formatDate(value)}" must be before "${beforeFormat}"`),
     test,
   };
 }
@@ -26,8 +32,10 @@ function afterDateValidator(afterDate) {
     }
     return date.getTime() > afterDate.getTime();
   };
+  const afterFormat = formatDate(afterDate);
   return {
-    error: (value) => dateError(`date "${value}" must be after "${afterDate}"`),
+    error: (value) =>
+      dateError(`date "${formatDate(value)}" must be after "${afterFormat}"`),
     test,
   };
 }

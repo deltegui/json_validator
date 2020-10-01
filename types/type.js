@@ -1,12 +1,18 @@
 const {arrayEquals} = require('../utils');
+const error = require('./error');
 
 function shouldBeValidator(admitValues) {
-  return (value) => {
+  const test = (value) => {
     if (value instanceof Array) {
       const arraysToCompare = admitValues.filter((e) => e instanceof Array);
       return arraysToCompare.find((e) => arrayEquals(value, e));
     }
     return admitValues.find((element) => element === value);
+  };
+  return {
+    error: (value) =>
+      error('generic', `element ${value} should be one of [${admitValues}]`),
+    test,
   };
 }
 
@@ -31,11 +37,6 @@ class Type {
       return true;
     }
     for (const validator of this.validators) {
-      // TODO these lines are for test passing.
-      if (validator instanceof Function) {
-        if (!validator(value)) return false;
-        continue;
-      }
       if (!validator.test(value)) {
         this.errors.push(validator.error(value));
         return false;

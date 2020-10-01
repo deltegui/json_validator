@@ -245,19 +245,18 @@ describe('Types', () => {
       ]);
     });
 
-    const date = new Date(1997, 8);
+    const date = new Date('August 19, 1970 23:15:30 GMT+07:00');
 
     it('should validate a date that is after other', () => {
       const afterDate = types.date.afterDate(date);
+      const before = new Date('August 19, 1960 23:15:30 GMT+07:00');
       expect(afterDate.isValid(new Date())).to.be.true;
-      expect(afterDate.isValid(new Date(1970, 0))).to.be.false;
+      expect(afterDate.isValid(before)).to.be.false;
       expect(afterDate.errors).to.be.eql([
         {
           type: 'date',
-          message: 'date "Thu Jan 01 1970 00:00:00 ' +
-            'GMT+0100 (Central European Standard Time)" ' +
-            'must be after "Mon Sep 01 1997 00:00:00 GMT+0200 ' +
-            '(Central European Summer Time)"',
+          message: 'date "1960-8-19 17:7:30" ' +
+            'must be after "1970-8-19 17:7:30"',
         },
       ]);
     });
@@ -269,10 +268,8 @@ describe('Types', () => {
       expect(beforeDate.errors).to.be.eql([
         {
           type: 'date',
-          message: 'date "Wed Jan 01 2020 00:00:00 ' +
-          'GMT+0100 (Central European Standard Time)" ' +
-          'must be before "Mon Sep 01 1997 00:00:00 GMT+0200 ' +
-          '(Central European Summer Time)"',
+          message: 'date "2020-1-1 0:0:0" ' +
+            'must be before "1970-8-19 17:7:30"',
         },
       ]);
     });
