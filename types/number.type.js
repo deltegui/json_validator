@@ -3,7 +3,7 @@ const error = require('./error');
 
 const numError = (message) => error('number', message);
 
-function positiveValidator(number) {
+function positiveValidator() {
   return {
     error: (key) =>
       numError(`key "${key}" should be positive`),

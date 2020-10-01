@@ -39,14 +39,34 @@ function validateLevel(json, struct, prevKeys = []) {
 }
 
 class Validator {
+  /**
+   * Creates a vaildator from a json
+   * valiation structure
+   * @param {Object} jsonStructure
+   */
   constructor(jsonStructure) {
     this.structure = jsonStructure;
-    this.errors = [];
+    this._errors = [];
   }
 
+  /**
+   * Check if json is valid according
+   * @param {Object} json
+   * @return {boolean}
+   */
   validate(json) {
-    this.errors = validateLevel(json, this.structure);
-    return this.errors.length === 0;
+    this._errors = validateLevel(json, this.structure);
+    return this._errors.length === 0;
+  }
+
+  /**
+   * Gets errors generated after validation. You
+   * need to call validate before. Otherwise
+   * will return empty array (no errors)
+   * @return {[{ type: String, message: String }]} errors
+   */
+  get errors() {
+    return this._errors;
   }
 }
 
