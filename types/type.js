@@ -33,6 +33,7 @@ class Type {
   }
 
   isValid(value, present = true) {
+    this.errors = [];
     if (!present && !this.isRequired) {
       return true;
     }

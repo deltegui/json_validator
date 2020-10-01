@@ -8,15 +8,15 @@ function formatDate(date) {
     ` ${date.getHours()}:${date.getMonth()}:${date.getSeconds()}`;
 }
 
-function beforeDateValidator(beforeDate) {
+function beforeDateValidator(date) {
   const test = (dateJSON) => {
-    const date = new Date(dateJSON);
-    if (isNaN(date)) {
+    const before = new Date(dateJSON);
+    if (isNaN(before)) {
       return false;
     }
-    return date.getTime() < beforeDate.getTime();
+    return date.getTime() > before.getTime();
   };
-  const beforeFormat = formatDate(beforeDate);
+  const beforeFormat = formatDate(date);
   return {
     error: (key) =>
       dateError(`key "${key}" must be before "${beforeFormat}"`),
@@ -24,15 +24,15 @@ function beforeDateValidator(beforeDate) {
   };
 }
 
-function afterDateValidator(afterDate) {
+function afterDateValidator(date) {
   const test = (dateJSON) => {
-    const date = new Date(dateJSON);
-    if (isNaN(date)) {
+    const after = new Date(dateJSON);
+    if (isNaN(after)) {
       return false;
     }
-    return date.getTime() > afterDate.getTime();
+    return date.getTime() < after.getTime();
   };
-  const afterFormat = formatDate(afterDate);
+  const afterFormat = formatDate(date);
   return {
     error: (key) =>
       dateError(`key "${key}" must be after "${afterFormat}"`),

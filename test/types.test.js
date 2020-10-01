@@ -145,10 +145,6 @@ describe('Types', () => {
             type: 'number',
             message: 'key "num" should be negative',
           },
-          {
-            type: 'number',
-            message: 'key "num" should be negative',
-          },
         ]);
       });
     });
@@ -263,7 +259,7 @@ describe('Types', () => {
     it('should validate a date that is after other', () => {
       const afterDate = types.date.afterDate(date);
       const before = new Date('August 19, 1960 23:15:30 GMT+07:00');
-      expect(afterDate.isValid(new Date())).to.be.true;
+      expect(types.date.afterDate(date).isValid(new Date())).to.be.true;
       expect(afterDate.isValid(before)).to.be.false;
       expect(dateErr(afterDate.errors)).to.be.eql([
         {
@@ -275,9 +271,9 @@ describe('Types', () => {
     });
 
     it('should validate a date that is before other', () => {
-      const beforeDate = types.date.beforeDate(date);
+      const beforeDate = types.date.beforeDate(date); // 1970/08/19
       expect(beforeDate.isValid(new Date(2020, 0))).to.be.false;
-      expect(beforeDate.isValid(new Date(1970, 0))).to.be.true;
+      expect(types.date.beforeDate(date).isValid(new Date(1960, 0))).to.be.true;
       expect(dateErr(beforeDate.errors)).to.be.eql([
         {
           type: 'date',
