@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-syntax */
-const { isObjectLiteral, flattenObject } = require('./utils');
+const {isObjectLiteral, flattenObject} = require('./utils');
 
 function notHaveRequiedKey(struct) {
   const flattenStruct = flattenObject(struct);
@@ -10,24 +9,35 @@ function notHaveRequiedKey(struct) {
   return notRequired;
 }
 
+function isKeyInvalid(json, struct, key) {
+  const isPropertyPresent = Object.prototype.hasOwnProperty.call(json, key);
+  return !struct[key].isValid(json[key], isPropertyPresent);
+}
+
+function validateLevel(json, struct) {
+  if (!json) {
+    return notHaveRequiedKey(struct);
+  }
+  for (const key of Object.keys(struct)) {
+    if (isObjectLiteral(struct[key])) {
+      if (!validateLevel(json[key], struct[key])) {
+        return false;
+      }
+    } else if (isKeyInvalid(json, struct, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 class Validator {
   constructor(jsonStructure) {
     this.structure = jsonStructure;
+    this.errors = [];
   }
 
-  validate(json, struct = this.structure) {
-    if(!json) {
-      return notHaveRequiedKey(struct);
-    }
-    for(const key of Object.keys(struct)) {
-      if(isObjectLiteral(struct[key])) {
-        if(!this.validate(json[key], struct[key])) return false;
-      } else {
-        const isPropertyPresent = Object.prototype.hasOwnProperty.call(json, key);
-        if(!struct[key].isValid(json[key], isPropertyPresent)) return false;
-      }
-    }
-    return true;
+  validate(json) {
+    return validateLevel(json, this.structure);
   }
 }
 

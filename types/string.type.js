@@ -1,26 +1,44 @@
-
 const Type = require('./type');
+const error = require('./error');
+
+const strError = (message) => error('string', message);
 
 function maxStringValidator(maxLength) {
-  return str => str.length < maxLength;
+  return {
+    error: (value) =>
+      strError(`string "${value}" should be lower than ${maxLength}`),
+    test: (str) => str.length < maxLength,
+  };
 }
 
 function minStringValidator(minLength) {
-  return str => str.length > minLength;
+  return {
+    error: (value) =>
+      strError(`string "${value}" should be upper than ${minLength}`),
+    test: (str) => str.length > minLength,
+  };
 }
 
-function stringValidator(str) {
-  return typeof str === 'string';
+function stringValidator() {
+  return {
+    error: (value) =>
+      strError(`element "${value}" must be string`),
+    test: (str) => typeof str === 'string',
+  };
 }
 
 function matchValidator(regex) {
-  return str => regex.test(str);
+  return {
+    error: (value) =>
+      strError(`string "${value}" should match ${regex}`),
+    test: (str) => regex.test(str),
+  };
 }
 
 class StringType extends Type {
   constructor() {
     super();
-    this.validators.push(stringValidator);
+    this.validators.push(stringValidator());
   }
 
   min(minLength) {
