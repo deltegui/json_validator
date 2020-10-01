@@ -1,6 +1,6 @@
 {
   "name": "simplejsonvalidator",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A library that check if a json is valid or not.",
   "main": "index.js",
   "scripts": {
