@@ -1,33 +1,41 @@
 const {isObjectLiteral, flattenObject} = require('./utils');
+const error = require('./types/error');
 
-function notHaveRequiedKey(struct) {
+function notHaveRequiedKey(struct, prevKeys) {
   const flattenStruct = flattenObject(struct);
-  let notRequired = true;
+  const errors = [];
   Object.keys(flattenStruct).forEach((key) => {
-    notRequired = notRequired && !flattenStruct[key].isRequired;
+    if (flattenStruct[key].isRequired) {
+      const keyStr = [...prevKeys, key].join('.');
+      errors.push(error('required', `key ${keyStr} is required`));
+    }
   });
-  return notRequired;
+  return errors;
 }
 
-function isKeyInvalid(json, struct, key) {
+function getErrorsIfKeyInvalid(json, struct, key, prevKeys) {
   const isPropertyPresent = Object.prototype.hasOwnProperty.call(json, key);
-  return !struct[key].isValid(json[key], isPropertyPresent);
+  const isInvalid = !struct[key].isValid(json[key], isPropertyPresent);
+  const keyStr = [...prevKeys, key].join('.');
+  return isInvalid ? struct[key].errors.map((e) => e(keyStr)) : [];
 }
 
-function validateLevel(json, struct) {
+function validateLevel(json, struct, prevKeys = []) {
   if (!json) {
-    return notHaveRequiedKey(struct);
+    return notHaveRequiedKey(struct, prevKeys);
   }
+  let errors = [];
   for (const key of Object.keys(struct)) {
     if (isObjectLiteral(struct[key])) {
-      if (!validateLevel(json[key], struct[key])) {
-        return false;
-      }
-    } else if (isKeyInvalid(json, struct, key)) {
-      return false;
+      const currentKeys = [...prevKeys, key];
+      const innerErrors = validateLevel(json[key], struct[key], currentKeys);
+      errors = [...errors, ...innerErrors];
+    } else {
+      const keyErrors = getErrorsIfKeyInvalid(json, struct, key, prevKeys);
+      errors = [...errors, ...keyErrors];
     }
   }
-  return true;
+  return errors;
 }
 
 class Validator {
@@ -37,7 +45,8 @@ class Validator {
   }
 
   validate(json) {
-    return validateLevel(json, this.structure);
+    this.errors = validateLevel(json, this.structure);
+    return this.errors.length === 0;
   }
 }
 

@@ -27,6 +27,45 @@ describe('JsonValidator', () => {
   });
 
   describe('validate function', () => {
+    it('should generate errors for keys if are invalid', () => {
+      const myValidator = validator.create((t) => ({
+        key: t.string.required.min(5),
+        user: {
+          name: t.string.min(10),
+          age: t.number.positive,
+          connection: t.date.required,
+          text: t.string,
+        },
+      }));
+      const json = {
+        user: {
+          name: 'demo',
+          age: -123,
+          text: '123456789',
+        },
+      };
+      const result = myValidator.validate(json);
+      expect(result).to.be.false;
+      expect(myValidator.errors).to.be.eql([
+        {
+          message: 'element "key" must be string',
+          type: 'string',
+        },
+        {
+          message: 'key "user.name" should be upper than 10',
+          type: 'string',
+        },
+        {
+          message: 'key "user.age" should be positive',
+          type: 'number',
+        },
+        {
+          message: 'element "user.connection" must be date',
+          type: 'date',
+        },
+      ]);
+    });
+
     it('should validate a json according to a validator', () => {
       const json = {
         user: 'demo',
