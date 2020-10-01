@@ -1,6 +1,9 @@
-/* eslint-disable no-unused-expressions */
 const expect = require('chai').expect;
 const types = require('../types');
+
+function errorCreatorWithKey(key) {
+  return (errors) => errors.map((e) => e(key));
+}
 
 describe('Types', () => {
   it('when a falsy value is passed when isnt type, should return false', () => {
@@ -12,14 +15,16 @@ describe('Types', () => {
   });
 
   describe('StringType', () => {
+    const strErr = errorCreatorWithKey('str');
+
     it('should validate a string', () => {
       expect(types.string.isValid('string')).to.be.true;
       const str = types.string;
       expect(str.isValid(11)).to.be.false;
-      expect(str.errors).to.be.eql([
+      expect(strErr(str.errors)).to.be.eql([
         {
           type: 'string',
-          message: 'element "11" must be string',
+          message: 'element "str" must be string',
         },
       ]);
     });
@@ -34,10 +39,10 @@ describe('Types', () => {
       it('should return false and have errors if string exceeds length', () => {
         const str = types.string;
         expect(str.max(2).isValid('hello')).to.be.false;
-        expect(str.errors).to.be.eql([
+        expect(strErr(str.errors)).to.be.eql([
           {
             type: 'string',
-            message: 'string "hello" should be lower than 2',
+            message: 'key "str" should be lower than 2',
           },
         ]);
       });
@@ -53,10 +58,10 @@ describe('Types', () => {
       it('should return false and have errors if string is lower', () => {
         const str = types.string;
         expect(str.min(11).isValid('hello')).to.be.false;
-        expect(str.errors).to.be.eql([
+        expect(strErr(str.errors)).to.be.eql([
           {
             type: 'string',
-            message: 'string "hello" should be upper than 11',
+            message: 'key "str" should be upper than 11',
           },
         ]);
       });
@@ -72,10 +77,10 @@ describe('Types', () => {
       it('if not matches should return false and have errors', () => {
         const str = types.string;
         expect(str.matches(/z$/).isValid('Algete')).to.be.false;
-        expect(str.errors).to.be.eql([
+        expect(strErr(str.errors)).to.be.eql([
           {
             type: 'string',
-            message: 'string "Algete" should match /z$/',
+            message: 'key "str" should match /z$/',
           },
         ]);
       });
@@ -83,6 +88,8 @@ describe('Types', () => {
   });
 
   describe('NumberType', () => {
+    const numErr = errorCreatorWithKey('num');
+
     describe('should validate a number', () => {
       it('returns true if is number', () => {
         const num = types.number;
@@ -93,10 +100,10 @@ describe('Types', () => {
       it('returns false and have errors if isnt an number', () => {
         const num = types.number;
         expect(num.isValid('hi')).to.be.false;
-        expect(num.errors).to.be.eql([
+        expect(numErr(num.errors)).to.be.eql([
           {
             type: 'number',
-            message: 'element "hi" must be a number',
+            message: 'element "num" must be a number',
           },
         ]);
       });
@@ -113,10 +120,10 @@ describe('Types', () => {
       it('returns false if is negative', () => {
         const num = types.number;
         expect(num.positive.isValid(-1)).to.be.false;
-        expect(num.errors).to.be.eql([
+        expect(numErr(num.errors)).to.be.eql([
           {
             type: 'number',
-            message: 'number "-1" should be positive',
+            message: 'key "num" should be positive',
           },
         ]);
       });
@@ -133,14 +140,14 @@ describe('Types', () => {
         const num = types.number;
         expect(num.negative.isValid(1)).to.be.false;
         expect(num.negative.isValid(0)).to.be.false;
-        expect(num.errors).to.be.eql([
+        expect(numErr(num.errors)).to.be.eql([
           {
             type: 'number',
-            message: 'number "1" should be negative',
+            message: 'key "num" should be negative',
           },
           {
             type: 'number',
-            message: 'number "0" should be negative',
+            message: 'key "num" should be negative',
           },
         ]);
       });
@@ -152,6 +159,8 @@ describe('Types', () => {
   });
 
   describe('BooleanType', () => {
+    const boolErr = errorCreatorWithKey('bool');
+
     it('should validate a boolean', () => {
       expect(types.boolean.isValid(true)).to.be.true;
       expect(types.boolean.isValid(false)).to.be.true;
@@ -160,24 +169,26 @@ describe('Types', () => {
     it('should not validate something that is not boolean', () => {
       const bool = types.boolean;
       expect(bool.isValid('blabla')).to.be.false;
-      expect(bool.errors).eql([
+      expect(boolErr(bool.errors)).eql([
         {
           type: 'boolean',
-          message: 'element "blabla" must be boolean',
+          message: 'element "bool" must be boolean',
         },
       ]);
     });
   });
 
   describe('ArrayType', () => {
+    const arrErr = errorCreatorWithKey('arr');
+
     it('should validate an array', () => {
       const arr = types.array;
       expect(arr.isValid([])).to.be.true;
       expect(arr.isValid({})).to.be.false;
-      expect(arr.errors).to.be.eql([
+      expect(arrErr(arr.errors)).to.be.eql([
         {
           type: 'array',
-          message: 'element "[object Object]" must be array',
+          message: 'element "arr" must be array',
         },
       ]);
     });
@@ -186,10 +197,10 @@ describe('Types', () => {
       const arr = types.array;
       expect(types.array.exactLength(3).isValid([0, 1, 2])).to.be.true;
       expect(arr.exactLength(1).isValid([1, 2])).to.be.false;
-      expect(arr.errors).to.be.eql([
+      expect(arrErr(arr.errors)).to.be.eql([
         {
           type: 'array',
-          message: 'array length "[1,2]" must have exact length of 1',
+          message: 'key "arr" must have exact length of 1',
         },
       ]);
     });
@@ -198,10 +209,10 @@ describe('Types', () => {
       const arr = types.array;
       expect(types.array.lengthUpperTo(1).isValid([0, 1, 2])).to.be.true;
       expect(arr.lengthUpperTo(4).isValid([1, 2])).to.be.false;
-      expect(arr.errors).to.be.eql([
+      expect(arrErr(arr.errors)).to.be.eql([
         {
           type: 'array',
-          message: 'array length "[1,2]" must be upper of 4',
+          message: 'key "arr" must be upper of 4',
         },
       ]);
     });
@@ -210,10 +221,10 @@ describe('Types', () => {
       const arr = types.array;
       expect(types.array.lengthLowerTo(3).isValid([0, 1])).to.be.true;
       expect(arr.lengthLowerTo(1).isValid([1, 2])).to.be.false;
-      expect(arr.errors).to.be.eql([
+      expect(arrErr(arr.errors)).to.be.eql([
         {
           type: 'array',
-          message: 'array length "[1,2]" must be lower of 1',
+          message: 'key "arr" must be lower of 1',
         },
       ]);
     });
@@ -222,7 +233,7 @@ describe('Types', () => {
       const arr = types.array;
       expect(arr.notEmpty.isValid([0, 1])).to.be.true;
       expect(arr.notEmpty.isValid([])).to.be.false;
-      expect(arr.errors).to.be.eql([
+      expect(arrErr(arr.errors)).to.be.eql([
         {
           type: 'array',
           message: 'array must not be empty',
@@ -232,15 +243,17 @@ describe('Types', () => {
   });
 
   describe('DateType', () => {
+    const dateErr = errorCreatorWithKey('dte');
+
     it('should validate a date', () => {
       const date = new Date();
       const dateType = types.date;
       expect(types.date.isValid(date.toJSON())).to.be.true;
       expect(dateType.isValid('')).to.be.false;
-      expect(dateType.errors).to.be.eql([
+      expect(dateErr(dateType.errors)).to.be.eql([
         {
           type: 'date',
-          message: 'element "" must be date',
+          message: 'element "dte" must be date',
         },
       ]);
     });
@@ -252,10 +265,10 @@ describe('Types', () => {
       const before = new Date('August 19, 1960 23:15:30 GMT+07:00');
       expect(afterDate.isValid(new Date())).to.be.true;
       expect(afterDate.isValid(before)).to.be.false;
-      expect(afterDate.errors).to.be.eql([
+      expect(dateErr(afterDate.errors)).to.be.eql([
         {
           type: 'date',
-          message: 'date "1960-8-19 17:7:30" ' +
+          message: 'key "dte" ' +
             'must be after "1970-8-19 17:7:30"',
         },
       ]);
@@ -265,10 +278,10 @@ describe('Types', () => {
       const beforeDate = types.date.beforeDate(date);
       expect(beforeDate.isValid(new Date(2020, 0))).to.be.false;
       expect(beforeDate.isValid(new Date(1970, 0))).to.be.true;
-      expect(beforeDate.errors).to.be.eql([
+      expect(dateErr(beforeDate.errors)).to.be.eql([
         {
           type: 'date',
-          message: 'date "2020-1-1 0:0:0" ' +
+          message: 'key "dte" ' +
             'must be before "1970-8-19 17:7:30"',
         },
       ]);

@@ -5,8 +5,8 @@ const boolError = (message) => error('boolean', message);
 
 function booleanValidator() {
   return {
-    error: (value) =>
-      boolError(`element "${value}" must be boolean`),
+    error: (key) =>
+      boolError(`element "${key}" must be boolean`),
     test: (bool) => typeof bool === 'boolean',
   };
 }

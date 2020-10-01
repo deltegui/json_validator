@@ -1,4 +1,3 @@
-
 const jsonValidator = require('../index');
 const expect = require('chai').expect;
 

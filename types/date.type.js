@@ -18,8 +18,8 @@ function beforeDateValidator(beforeDate) {
   };
   const beforeFormat = formatDate(beforeDate);
   return {
-    error: (value) =>
-      dateError(`date "${formatDate(value)}" must be before "${beforeFormat}"`),
+    error: (key) =>
+      dateError(`key "${key}" must be before "${beforeFormat}"`),
     test,
   };
 }
@@ -34,8 +34,8 @@ function afterDateValidator(afterDate) {
   };
   const afterFormat = formatDate(afterDate);
   return {
-    error: (value) =>
-      dateError(`date "${formatDate(value)}" must be after "${afterFormat}"`),
+    error: (key) =>
+      dateError(`key "${key}" must be after "${afterFormat}"`),
     test,
   };
 }

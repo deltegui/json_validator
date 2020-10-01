@@ -5,32 +5,32 @@ const strError = (message) => error('string', message);
 
 function maxStringValidator(maxLength) {
   return {
-    error: (value) =>
-      strError(`string "${value}" should be lower than ${maxLength}`),
+    error: (key) =>
+      strError(`key "${key}" should be lower than ${maxLength}`),
     test: (str) => str.length < maxLength,
   };
 }
 
 function minStringValidator(minLength) {
   return {
-    error: (value) =>
-      strError(`string "${value}" should be upper than ${minLength}`),
+    error: (key) =>
+      strError(`key "${key}" should be upper than ${minLength}`),
     test: (str) => str.length > minLength,
   };
 }
 
 function stringValidator() {
   return {
-    error: (value) =>
-      strError(`element "${value}" must be string`),
+    error: (key) =>
+      strError(`element "${key}" must be string`),
     test: (str) => typeof str === 'string',
   };
 }
 
 function matchValidator(regex) {
   return {
-    error: (value) =>
-      strError(`string "${value}" should match ${regex}`),
+    error: (key) =>
+      strError(`key "${key}" should match ${regex}`),
     test: (str) => regex.test(str),
   };
 }

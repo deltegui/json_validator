@@ -5,24 +5,24 @@ const arrError = (message) => error('array', message);
 
 function exactLengthValidator(length) {
   return {
-    error: (value) =>
-      arrError(`array length "[${value}]" must have exact length of ${length}`),
+    error: (key) =>
+      arrError(`key "${key}" must have exact length of ${length}`),
     test: (arr) => arr.length === length,
   };
 }
 
 function lengthUpperValidator(length) {
   return {
-    error: (value) =>
-      arrError(`array length "[${value}]" must be upper of ${length}`),
+    error: (key) =>
+      arrError(`key "${key}" must be upper of ${length}`),
     test: (arr) => arr.length > length,
   };
 }
 
 function lengthLowerValidator(length) {
   return {
-    error: (value) =>
-      arrError(`array length "[${value}]" must be lower of ${length}`),
+    error: (key) =>
+      arrError(`key "${key}" must be lower of ${length}`),
     test: (arr) => arr.length < length,
   };
 }

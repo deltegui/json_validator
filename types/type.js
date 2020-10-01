@@ -38,7 +38,7 @@ class Type {
     }
     for (const validator of this.validators) {
       if (!validator.test(value)) {
-        this.errors.push(validator.error(value));
+        this.errors.push(validator.error);
         return false;
       }
     }

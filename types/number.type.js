@@ -5,16 +5,16 @@ const numError = (message) => error('number', message);
 
 function positiveValidator(number) {
   return {
-    error: (value) =>
-      numError(`number "${value}" should be positive`),
+    error: (key) =>
+      numError(`key "${key}" should be positive`),
     test: (number) => number >= 0,
   };
 }
 
 function negativeValidator() {
   return {
-    error: (value) =>
-      numError(`number "${value}" should be negative`),
+    error: (key) =>
+      numError(`key "${key}" should be negative`),
     test: (number) => number < 0,
   };
 }
