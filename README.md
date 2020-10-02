@@ -28,7 +28,7 @@ validator.create(t => ({
 }), 'validatorName');
 ```
 
-or
+or you can omit the validator name and assign the returning valiator to a variable:
 
 ```javascript
 const myValidator = validator.create(t => ({
@@ -46,7 +46,7 @@ const json = {
   age: 22,
   text: '123456789',
 };
-validator.validate(json, 'validatorName');
+myValidator.validate(json);
 ```
 
 You can also nest objects like this:
@@ -107,8 +107,8 @@ You can use this validators in string type:
 | ------------- | ---------------------------- |:-----------------------------------------:|
 | required      | makes key required           | t.string.required                         |
 | shouldBe      | checks if the values matches | t.string.shouldBe('apples', 'oranges')    |
-| max(number)   | maximum limit                | t.string.max(10)                          |
-| min(number)   | minimum limit                | t.string.min(1)                           |
+| max(number)   | maximum lenght limit         | t.string.max(10)                          |
+| min(number)   | minimum lenght limit         | t.string.min(1)                           |
 | matches(regex)| tests if string matches regex| t.string.matches(/Regex/)                 |
 
 ### Number
@@ -190,29 +190,18 @@ You can use our middleware with express to check jsons. You can do it calling to
 to create a middleware:
 
 ```javascript
-validator.create(t => ({
+const myValidator = validator.create(t => ({
   user: t.string.required,  
   age: t.number,
   text: t.string.max(10).required,
-}), 'name');
+}));
 
-app.post('/', validator.createMiddleware('name'), (req, res) => res.send(req.body););
+app.post('/', validator.createMiddleware(myValidator), (req, res) => res.send(req.body););
 ```
 
-By default, the middleware, when a json is not valid, returns this json with html status code 400:
-
-`
-{
-  status: 400,
-  message: 'invalid json'
-}
-`
-
-You can customize this passing to createMiddleware your json and the status code:
+The middleware, when a json is not valid, returns encountered errors.
+You can customize this passing to createMiddleware the status code:
 
 ```javascript
-const json = {
-  error: 'bad json',
-};
-const middleware = validator.createMiddleware('validator name', json, 401);
+const middleware = validator.createMiddleware(myValidator, 401);
 ```

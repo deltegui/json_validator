@@ -64,10 +64,16 @@ describe('Express MiddleWare', () => {
   });
 
   it('should return error if json is bad', () => {
-    const expectedJson = {
-      status: 400,
-      message: 'invalid json',
-    };
+    const expectedJson = [
+      {
+        message: 'element "name" must be string',
+        type: 'string',
+      },
+      {
+        message: 'element "age" must be a number',
+        type: 'number',
+      },
+    ];
     const req = {
       body: {
         name: 22,
