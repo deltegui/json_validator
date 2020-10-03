@@ -10,7 +10,7 @@ You can install this library using npm:
 
 ## Usage
 
-First, you need to create a new JsonValidator instance calling to exported function:
+First, you need to create a new JsonValidator instance calling to the exported function:
 
 ```javascript
 const jsonValidator = require('simplejsonvalidator');
@@ -37,7 +37,7 @@ const myValidator = validator.create(t => ({
 }));
 ```
 
-Finally, you can validate any json using 'validate' function:
+Finally, you can validate any json using the 'validate' function:
 
 ```javascript
 const json = {
@@ -67,7 +67,7 @@ And you can check why a json is invalid:
 const errors = demoValidator.errors();
 ```
 
-Errors looks like these:
+Errors look like these:
 
 ```javascript
 [
@@ -185,7 +185,7 @@ You can use these validators in date type:
 
 ## Express Framework Integration
 
-You can use a express middleware to check jsons. You can do it calling to createMiddleware function
+You can use an express middleware to check jsons. You can do it calling to createMiddleware function
 to create a middleware:
 
 ```javascript
