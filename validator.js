@@ -41,7 +41,7 @@ function validateLevel(json, struct, prevKeys = []) {
 class Validator {
   /**
    * Creates a vaildator from a json
-   * valiation structure
+   * validation structure
    * @param {Object} jsonStructure
    */
   constructor(jsonStructure) {

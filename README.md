@@ -1,6 +1,5 @@
 # SimpleJsonValidator
 [![BCH compliance](https://bettercodehub.com/edge/badge/frikiman34/SimpleJsonValidator?branch=master)](https://bettercodehub.com/)
-[![Build Status](https://travis-ci.org/frikiman34/SimpleJsonValidator.svg?branch=master)](https://travis-ci.org/frikiman34/SimpleJsonValidator)
 
 Json Validator for NodeJS with simple ruby-like syntax
 
@@ -11,7 +10,7 @@ You can install this library using npm:
 
 ## Usage
 
-First you need to create a new JsonValidator instance calling to exported function:
+First, you need to create a new JsonValidator instance calling to exported function:
 
 ```javascript
 const jsonValidator = require('simplejsonvalidator');
@@ -28,7 +27,7 @@ validator.create(t => ({
 }), 'validatorName');
 ```
 
-or you can omit the validator name and assign the returning valiator to a variable:
+or you can omit the validator name and assign the returning validator to a variable:
 
 ```javascript
 const myValidator = validator.create(t => ({
@@ -68,7 +67,7 @@ And you can check why a json is invalid:
 const errors = demoValidator.errors();
 ```
 
-Errors looks like this:
+Errors looks like these:
 
 ```javascript
 [
@@ -99,11 +98,11 @@ Validates if type is string. Example:
 validator.create(t => ({
   key: t.string,
 }));
-````
+```
 
-You can use this validators in string type:
+You can use these validators in string type:
 
-| Validator     | Explanation                  | Example                                   |
+| Validator     | Explaination                 | Example                                   |
 | ------------- | ---------------------------- |:-----------------------------------------:|
 | required      | makes key required           | t.string.required                         |
 | shouldBe      | checks if the values matches | t.string.shouldBe('apples', 'oranges')    |
@@ -118,11 +117,11 @@ Validates if type is number. Example:
 validator.create(t => ({
   key: t.number,
 }));
-````
+```
 
-You can use this validators in number type:
+You can use these validators in number type:
 
-| Validator     | Explanation                  | Example                   |
+| Validator     | Explaination                  | Example                   |
 | ------------- | ---------------------------- |:-------------------------:|
 | required      | makes key required           | t.number.required         |
 | shouldBe      | checks if the values matches | t.number.shouldBe(22, 21) |
@@ -136,11 +135,11 @@ Validates if type is boolean. Example:
 validator.create(t => ({
   key: t.boolean,
 }));
-````
+```
 
-You can use this validators in boolean type:
+You can use these validators in boolean type:
 
-| Validator     | Explanation                  | Example                   |
+| Validator     | Explaination                  | Example                   |
 | ------------- | ---------------------------- |:-------------------------:|
 | required      | makes key required           | t.boolean.required        |
 | shouldBe      | checks if the value matches  | t.boolean.shouldBe(false) |
@@ -152,11 +151,11 @@ Validates if type is array. Example:
 validator.create(t => ({
   key: t.array,
 }));
-````
+```
 
-You can use this validators in array type:
+You can use these validators in array type:
 
-| Validator             | Explanation                                              | Example                               |
+| Validator             | Explaination                                              | Example                               |
 | --------------------- | -------------------------------------------------------- |:-------------------------------------:|
 | required              | makes key required                                       | t.array.required                      |
 | shouldBe              | checks if the values matches                             | t.array.shouldBe([22, 21], [1, 'hi']) |
@@ -172,11 +171,11 @@ Validates if type is date. Example:
 validator.create(t => ({
   key: t.date,
 }));
-````
+```
 
-You can use this validators in date type:
+You can use these validators in date type:
 
-| Validator         | Explanation                                | Example                              |
+| Validator         | Explaination                                | Example                              |
 | ----------------- | ------------------------------------------ |:------------------------------------:|
 | required          | makes key required                         | t.date.required                      |
 | shouldBe          | checks if the values matches               | t.date.shouldBe(new Date())          |
@@ -186,7 +185,7 @@ You can use this validators in date type:
 
 ## Express Framework Integration
 
-You can use our middleware with express to check jsons. You can do it calling to createMiddleware function
+You can use a express middleware to check jsons. You can do it calling to createMiddleware function
 to create a middleware:
 
 ```javascript
@@ -199,8 +198,8 @@ const myValidator = validator.create(t => ({
 app.post('/', validator.createMiddleware(myValidator), (req, res) => res.send(req.body););
 ```
 
-The middleware, when a json is not valid, returns encountered errors.
-You can customize this passing to createMiddleware the status code:
+The middleware, when a json is not valid, returns found errors.
+You can customize the returning status code:
 
 ```javascript
 const middleware = validator.createMiddleware(myValidator, 401);
